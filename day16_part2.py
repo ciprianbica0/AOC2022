@@ -167,11 +167,5 @@ max1 = 0
 max_pressure1, to_avoid = calcMaxPressure1()
 max_pressure2 = calcMaxPressure2(to_avoid)
 print("Max pressure ", max_pressure1+max_pressure2)
-# for i in reachable_permutations:
-#     c = check_valve_order(list(i))
-#     if c > max1:
-#         max1 = c
-#         print(list(i))
-# print(check_valve_order(useful))
 t2 = time.time()
 print("Duration", t2-t1, "~=", "%0.2f" % ((t2-t1)/60), "minutes")
