@@ -71,22 +71,22 @@ def calcMaxPressure():
     queue.append(([], useful, 30, 0))
     while len(queue) != 0:
         road, rest, tleft, pres = queue.pop(0)
-        if pres>result:
+        if pres > result:
             print(pres)
         result = max(result, pres)
         explored.add(tuple(road))
-        if len(rest)==0:
-            result = max(result,tleft*checkPressureopen(road,0)+pres)
+        if len(rest) == 0:
+            result = max(result, tleft*checkPressureopen(road, 0)+pres)
         for w in rest:
             if tuple(road+[w]) not in explored:
                 c = deepcopy(rest)
                 c.remove(w)
                 l = road[-1] if len(road) > 0 else "AA"
-                if tleft-distances[l][w]-1<=2:
-                    result = max(result, pres+tleft*checkPressureopen(road,0))
+                if tleft-distances[l][w]-1 <= 2:
+                    result = max(result, pres+tleft*checkPressureopen(road, 0))
                 else:
                     queue.append((road+[w], c, tleft-distances[l][w]-1,
-                             (distances[l][w]+1)*checkPressureopen(road, 0)+pres))
+                                  (distances[l][w]+1)*checkPressureopen(road, 0)+pres))
     return result
 
 
