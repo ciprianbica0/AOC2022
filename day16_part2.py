@@ -1,7 +1,6 @@
 from copy import deepcopy
 import time
-import itertools
-import numpy
+
 f = open("day16_input.txt", "r")
 t1 = time.time()
 valves = []
@@ -45,7 +44,7 @@ def findvalve(name):
     for i in valves:
         if i.name == name:
             return i
-    return 0
+    return Valve("a",0,[],False)
 
 
 def bfs(root):
