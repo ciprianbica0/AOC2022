@@ -5,7 +5,7 @@ f = open("day17_input.txt", "r")
 t1 = time.time()
 
 # SETUP
-room = numpy.zeros((10000, 7), numpy.int32)
+room = numpy.zeros((8000, 7), numpy.int32)
 # print(room, '\n')
 jet_streams = f.read()
 # print(jet_streams)
@@ -42,27 +42,12 @@ rocks = [rock1, rock2, rock3, rock4, rock5]
 # ________________________________________________________________________________________________________________________
 rockcounter = 0
 jets = 0
-
-
-def findheight():
-    height = 0
-    for i in range(room.shape[0]):
-        found = 0
-        for j in range(room.shape[1]):
-            if room[i][j] != 0:
-                height = room.shape[0] - i
-                found = 1
-        if found:
-            break
-    return height
+h = 0
 
 
 def getSpawnLocation():
-    # print("height = ", height)
-    return (room.shape[0]-findheight()-4, 2)
-
-
-print(getSpawnLocation())
+    global rockcounter, h
+    return (room.shape[0]-h-4, 2)
 
 
 def spawnRock():
@@ -73,7 +58,6 @@ def spawnRock():
     for i in range(rock.shape[0], 0, -1):
         for j in range(rock.shape[1]):
             if rock[i-1][j] == 1:
-                # room[botlefcor[0]-(rock.shape[0]-i)][botlefcor[1]+j] = 1
                 coord.append([botlefcor[0]-(rock.shape[0]-i), botlefcor[1]+j])
     return coord
 
@@ -82,6 +66,7 @@ def rock_fall(coord):
     global room
     global jets
     global jet_streams
+    global h
     stopped = False
     while not stopped:
         dir = -1
@@ -92,7 +77,6 @@ def rock_fall(coord):
         for i in coord:
             if blocked:
                 break
-            # print(x,y)
             if i[1]+dir not in range(room.shape[1]):
                 blocked = True
             if not blocked:
@@ -116,6 +100,9 @@ def rock_fall(coord):
         else:
             for i in coord:
                 room[i[0]][i[1]] = 1
+    for (i, _) in coord:
+        if i <= room.shape[0] - h:
+            h = room.shape[0] - i
 
 
 def printroom():
@@ -126,15 +113,19 @@ def printroom():
 
 
 def simulate():
+    diffs = []
     global rockcounter
+    global h
     while rockcounter < 2022:
+        a = h
         rock_fall(spawnRock())
-        if rockcounter % 100 == 0:
-            print("rockcounter = ", rockcounter)
+        diffs.append(h-a)
         rockcounter += 1
-    print("height = ", findheight())
+    return h
 
-simulate()
+
+print(simulate())
+
 
 t2 = time.time()
 print("Duration", t2-t1, "~=", "%0.2f" % ((t2-t1)/60), "minutes")
