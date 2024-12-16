@@ -1,7 +1,7 @@
 from copy import deepcopy
 import numpy as np
 
-f = open("day12_input.txt", "r")
+f = open("day12\\day12_input.txt", "r")
 matrix = []
 ROWS = 0
 COLS = 0
@@ -27,13 +27,10 @@ for i in range(ROWS):
         previous[i][j] = [0, 0]
 steps = [[S[0], S[1]]]
 
-
-def getpos(X, Y):
-    return ROWS*X+Y
+matrix[S[0]][S[1]] = 'a'
 
 
 def BFS(matrix, root):
-    matrix[root[0]][root[1]] = 'a'
     queue = []
     explored = [root]
     queue.append(root)
@@ -54,12 +51,17 @@ def BFS(matrix, root):
                 queue.append(w)
 
 
-print(BFS(matrix, S))
-# print(previous[S][])
-current = deepcopy(E)
-a = 0
-while not (current[0] == S[0] and current[1] == S[1]):
-    a += 1
-    current = previous[current[0]][current[1]]
-    print(matrix[current[0], current[1]])
-print(a)
+a = []
+for i in range(ROWS):
+    for j in range(COLS):
+        if matrix[i, j] == 'a' and (BFS(matrix, [i, j]))!=None:
+            print(i,j)
+            b = 0
+            current = deepcopy(E)
+            while not (current[0] == i and current[1] == j):
+                b += 1
+                # print(b)
+                current = previous[current[0]][current[1]]
+                # print(matrix[current[0], current[1]])
+            a.append(b)
+print(min(a))

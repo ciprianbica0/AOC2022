@@ -2,7 +2,7 @@ import sys
 import regex as re
 import numpy
 
-f = open("day11_input.txt", "r")
+f = open("day11\\day11_input.txt", "r")
 
 monkeys = []
 inspects = []

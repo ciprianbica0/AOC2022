@@ -1,4 +1,4 @@
-f = open("day10_input.txt", "r")
+f = open("day10\\day10_input.txt", "r")
 
 cycle = 1
 reg = 1

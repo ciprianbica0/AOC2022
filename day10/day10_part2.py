@@ -1,6 +1,6 @@
 from math import floor
 import numpy as np
-f = open("day10_input.txt", "r")
+f = open("day10\\day10_input.txt", "r")
 
 cycle = 0
 X = 1

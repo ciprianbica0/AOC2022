@@ -1,6 +1,6 @@
 import time
 
-f = open("day15_input.txt", "r")
+f = open("day15\\day15_input.txt", "r")
 sensors = []
 beacons = []
 explored = set()

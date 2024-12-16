@@ -1,7 +1,7 @@
 from copy import deepcopy
 import time
 
-f = open("day16_input.txt", "r")
+f = open("day16\\day16_input.txt", "r")
 t1 = time.time()
 valves = []
 distances = {}
@@ -63,62 +63,29 @@ def bfs(root):
     return result
 
 
-def calcMaxPressure1():
+def calcMaxPressure():
     result = 0
     queue = []
-    bestpath = []
     explored = set()
-    queue.append(([], useful, 26, 0))
+    queue.append(([], useful, 30, 0))
     while len(queue) != 0:
         road, rest, tleft, pres = queue.pop(0)
         if pres > result:
             print(pres)
         result = max(result, pres)
         explored.add(tuple(road))
+        if len(rest) == 0:
+            result = max(result, tleft*checkPressureopen(road, 0)+pres)
         for w in rest:
             if tuple(road+[w]) not in explored:
                 c = deepcopy(rest)
                 c.remove(w)
                 l = road[-1] if len(road) > 0 else "AA"
                 if tleft-distances[l][w]-1 <= 2:
-                    m = pres+tleft*checkPressureopen(road, 0)
-                    if result < m:
-                        result = m
-                        bestpath = road
+                    result = max(result, pres+tleft*checkPressureopen(road, 0))
                 else:
                     queue.append((road+[w], c, tleft-distances[l][w]-1,
                                   (distances[l][w]+1)*checkPressureopen(road, 0)+pres))
-    print(bestpath)
-    return result, set(bestpath)
-
-
-def calcMaxPressure2(to_avoid):
-    result = 0
-    queue = []
-    bestpath = []
-    explored = set()
-    queue.append(([], useful, 26, 0))
-    while len(queue) != 0:
-        road, rest, tleft, pres = queue.pop(0)
-        if pres > result:
-            print(pres)
-        result = max(result, pres)
-        explored.add(tuple(road))
-        for w in rest:
-            if w not in to_avoid:
-                if tuple(road+[w]) not in explored:
-                    c = deepcopy(rest)
-                    c.remove(w)
-                    l = road[-1] if len(road) > 0 else "AA"
-                    if tleft-distances[l][w]-1 <= 2:
-                        m = pres+tleft*checkPressureopen(road, 0)
-                        if result < m:
-                            result = m
-                            bestpath = road
-                    else:
-                        queue.append((road+[w], c, tleft-distances[l][w]-1,
-                                      (distances[l][w]+1)*checkPressureopen(road, 0)+pres))
-    print(bestpath)
     return result
 
 
@@ -163,8 +130,7 @@ for v in valves:
 
 
 max1 = 0
-max_pressure1, to_avoid = calcMaxPressure1()
-max_pressure2 = calcMaxPressure2(to_avoid)
-print("Max pressure ", max_pressure1+max_pressure2)
+max_pressure = calcMaxPressure()
+print("Max pressure ", max_pressure)
 t2 = time.time()
 print("Duration", t2-t1, "~=", "%0.2f" % ((t2-t1)/60), "minutes")

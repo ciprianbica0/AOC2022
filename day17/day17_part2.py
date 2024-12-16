@@ -1,7 +1,7 @@
 import time
 import numpy
 
-f = open("day17_input.txt", "r")
+f = open("day17\\day17_input.txt", "r")
 t1 = time.time()
 
 # SETUP

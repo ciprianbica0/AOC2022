@@ -1,7 +1,7 @@
 import pip
 import numpy as np
 
-f = open("day8_input.txt", "r")
+f = open("day8\\day8_input.txt", "r")
 matrix = []
 visible = 0
 for line in f:

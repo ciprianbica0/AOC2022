@@ -1,5 +1,5 @@
 import ast
-f = open("day13_input.txt", "r")
+f = open("day13\\day13_input.txt", "r")
 
 
 def compare_packets(left, right):

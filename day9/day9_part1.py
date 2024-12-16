@@ -10,7 +10,7 @@ def comp(a, b):
         return 1
 
 
-f = open("day9_input.txt", "r")
+f = open("day9\\day9_input.txt", "r")
 matrix = np.zeros((1000, 1000), np.int32)
 r = 500
 c = 500

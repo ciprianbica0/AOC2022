@@ -1,5 +1,5 @@
 import numpy as np
-f = open("day14_input.txt", "r")
+f = open("day14\\day14_input.txt", "r")
 
 ROWS = 200
 COLS = 700
