@@ -23,14 +23,11 @@ for blueprint in blueprints:
 def start(blueprint):
     blueprint = [int(item) for item in blueprint]
     result = 0
-    root = (24, (0, 0, 0, 0), (1, 0, 0, 0))
+    root = (32, (0, 0, 0, 0), (1, 0, 0, 0))
     result = bfs(blueprint, root)
 
     return result
 
-
-counter = 0
-max_depth = 0
 
 states = set()
 
@@ -107,9 +104,12 @@ def bfs(blueprint, root):
     return max1
 
 
-result = 0
-for i in range(len(blueprints)):
-    result += start(blueprints[i]) * (i+1)
-print("Sum of quality levels: ", result)
+result = 1
+
+for i in range(len(blueprints)-27):
+    result *= start(blueprints[i])
+print("Product of blueprints: ", result)
+
+
 e = time()
-print("time = ", e-s)
+print("time =", e-s)
