@@ -1,12 +1,11 @@
 import copy
 import re
 import numpy as np
-from pyparsing import col
 
 file = open('day22\\day22_input.txt', 'r')
 
 dirs = []
-m = []
+m = np.zeros((0, 0), dtype=int)
 rows = 0
 cols = 0
 map_stop = False
@@ -63,20 +62,15 @@ def walk_right(current_pos, steps):
     i = 1
     while i <= steps:
         col_pos %= len(horizon)
-        # print("R step", i, "coords", row_pos, (i+col_pos) %
-        #       len(horizon), "square is ", horizon[(i+col_pos) % len(horizon)])
         if horizon[(i+col_pos) % len(horizon)] == 2:
-            # print("R returning last viable position")
             return last_viable_pos
         elif horizon[(i+col_pos) % len(horizon)] == 0:
-            # print("R no step, skipping")
             col_pos += 1
         elif horizon[(i+col_pos) % len(horizon)] == 1 and i == steps:
             return row_pos, (i+col_pos) % len(horizon)
         elif horizon[(i+col_pos) % len(horizon)] == 1:
             last_viable_pos = copy.deepcopy(
                 (row_pos, (i+col_pos) % len(horizon)))
-            # print("R last_viable_pos updated:", last_viable_pos)
             if i == steps:
                 return last_viable_pos
             i += 1
@@ -90,20 +84,15 @@ def walk_left(current_pos, steps):
     i = 1
     while i <= steps:
         col_pos %= len(horizon)
-        # print("L step", i, "coords", row_pos, (col_pos-i) %
-        #       len(horizon), "square is ", horizon[(col_pos-i) % len(horizon)])
         if horizon[(col_pos-i) % len(horizon)] == 2:
-            # print("L returning last viable position")
             return last_viable_pos
         elif horizon[(col_pos-i) % len(horizon)] == 0:
-            # print("L no step, skipping")
             col_pos -= 1
         elif horizon[(i+col_pos) % len(horizon)] == 1 and i == steps:
             return row_pos, (col_pos-i) % len(horizon)
         elif horizon[(col_pos-i) % len(horizon)] == 1:
             last_viable_pos = copy.deepcopy(
                 (row_pos, (col_pos-i) % len(horizon)))
-            # print("L last_viable_pos updated:", last_viable_pos)
             if i == steps:
                 return last_viable_pos
             i += 1
@@ -117,20 +106,15 @@ def walk_up(current_pos, steps):
     i = 1
     while i <= steps:
         col_pos %= len(horizon)
-        # print("U step", i, "coords", (row_pos-i) % len(horizon), col_pos,
-        #       "square is ", horizon[(row_pos-i) % len(horizon)])
         if horizon[(row_pos-i) % len(horizon)] == 2:
-            # print("U returning last viable position")
             return last_viable_pos
         elif horizon[(row_pos-i) % len(horizon)] == 0:
-            # print("U no step, skipping")
             row_pos -= 1
         elif horizon[(i-row_pos) % len(horizon)] == 1 and i == steps:
             return (row_pos-i) % len(horizon), col_pos
         elif horizon[(row_pos-i) % len(horizon)] == 1:
             last_viable_pos = copy.deepcopy((
                 (row_pos-i) % len(horizon), col_pos))
-            # print("U last_viable_pos updated:", last_viable_pos)
             if i == steps:
                 return last_viable_pos
             i += 1
@@ -144,27 +128,21 @@ def walk_down(current_pos, steps):
     i = 1
     while i <= steps:
         col_pos %= len(horizon)
-        # print("D step", i, "coords", (row_pos+i) % len(horizon), col_pos,
-        #       "square is ", horizon[(row_pos+i) % len(horizon)])
         if horizon[(row_pos+i) % len(horizon)] == 2:
-            # print("D returning last viable position")
             return last_viable_pos
         elif horizon[(row_pos+i) % len(horizon)] == 0:
-            # print("D no step, skipping")
             row_pos += 1
         elif horizon[(i+row_pos) % len(horizon)] == 1 and i == steps:
             return (row_pos+i) % len(horizon), col_pos
         elif horizon[(row_pos+i) % len(horizon)] == 1:
             last_viable_pos = copy.deepcopy((
                 (row_pos+i) % len(horizon), col_pos))
-            # print("D last_viable_pos updated:", last_viable_pos)
             if i == steps:
                 return last_viable_pos
             i += 1
 
 
 def walk(current_pos, curr_dir, steps, target_dir):
-    # print("Starting position:", current_pos, current_dir)
     if curr_dir == "R":
         if target_dir == "R":
             return walk_right(current_pos, steps), "D"
@@ -190,7 +168,6 @@ def walk(current_pos, curr_dir, steps, target_dir):
 
 
 pos = [0, find_first_one(0), "R"]
-# print(pos)
 current_pos = (pos[0], pos[1])
 current_dir = pos[2]
 last_dir = ""
@@ -203,10 +180,10 @@ for i in range(len(numbas)):
         current_pos, current_dir = walk(
             current_pos, current_dir, numbas[i], dirs[i-1])
 
+assert current_pos is not None
 current_pos = tuple(x + 1 for x in current_pos)
-# print(current_pos, last_dir)
 
 facing = {"R": 0, "D": 1, "L": 2, "U": 3}[last_dir]
 
 final_password = 1000*current_pos[0] + 4 * current_pos[1] + facing
-print("Final password:",final_password)
+print("Final password:", final_password)
